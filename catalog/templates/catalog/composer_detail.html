@@ -1,0 +1,84 @@
+{% extends 'catalog/base.html' %}
+
+{% block title %}{{ composer.complete_name }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <h1>{{ composer.complete_name }}</h1>
+        {% if composer.name_ko %}
+        <h2 class="text-muted">{{ composer.name_ko }}</h2>
+        {% endif %}
+        
+        <div class="mb-3">
+            <span class="badge bg-secondary">{{ composer.epoch }}</span>
+            {% if composer.country %}
+            <span class="badge bg-info">{{ composer.country }}</span>
+            {% endif %}
+            {% if composer.popular %}
+            <span class="badge bg-warning">Popular</span>
+            {% endif %}
+        </div>
+        
+        {% if popular_works %}
+        <h3>Popular Works</h3>
+        <div class="list-group mb-4">
+            {% for work in popular_works %}
+            <div class="list-group-item">
+                <h5>{{ work.title }}</h5>
+                {% if work.title_ko %}
+                <p class="text-primary mb-1">{{ work.title_ko }}</p>
+                {% endif %}
+                {% if work.subtitle %}
+                <p class="text-muted mb-1">{{ work.subtitle }}</p>
+                {% endif %}
+                <small class="text-muted">{{ work.genre }}</small>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+        <h3>All Works ({{ works|length }})</h3>
+        <div class="list-group">
+            {% for work in works %}
+            <div class="list-group-item">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <h6>{{ work.title }}</h6>
+                        {% if work.title_ko %}
+                        <p class="text-primary mb-1">{{ work.title_ko }}</p>
+                        {% endif %}
+                        {% if work.subtitle %}
+                        <p class="text-muted mb-1">{{ work.subtitle }}</p>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <span class="badge bg-light text-dark">{{ work.genre }}</span>
+                        {% if work.popular %}
+                        <span class="badge bg-warning">Popular</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5>Quick Stats</h5>
+            </div>
+            <div class="card-body">
+                <p>Total Works: {{ works|length }}</p>
+                <p>Popular Works: {{ popular_works|length }}</p>
+                <p>Recommended: {{ works|length }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-3">
+    <a href="{% url 'catalog:index' %}" class="btn btn-secondary">← Back to Composers</a>
+</div>
+{% endblock %}

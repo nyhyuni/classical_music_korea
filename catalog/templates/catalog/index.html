@@ -1,0 +1,59 @@
+{% extends 'catalog/base.html' %}
+
+{% block title %}Classical Music Database{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <h1>Classical Music Database</h1>
+        <p class="lead">Explore classical composers and their works with Korean translations</p>
+        
+        <h3>Popular Composers</h3>
+        <div class="row">
+            {% for composer in popular_composers %}
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <a href="{% url 'catalog:composer_detail' composer.id %}" class="text-decoration-none">
+                                {{ composer.name }}
+                            </a>
+                        </h5>
+                        {% if composer.name_ko %}
+                        <p class="card-text text-muted">{{ composer.name_ko }}</p>
+                        {% endif %}
+                        <p class="card-text">
+                            <small class="text-muted">{{ composer.epoch }} • {{ composer.country }}</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <h3 class="mt-4">All Composers</h3>
+        <div class="row">
+            {% for composer in composers %}
+            <div class="col-md-3 mb-2">
+                <a href="{% url 'catalog:composer_detail' composer.id %}" class="btn btn-outline-primary btn-sm w-100">
+                    {{ composer.name }}
+                    {% if composer.name_ko %}({{ composer.lastname_ko }}){% endif %}
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5>Database Stats</h5>
+            </div>
+            <div class="card-body">
+                <p>Composers: {{ composers|length }}</p>
+                <p>Popular Composers: {{ popular_composers|length }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
