@@ -20,6 +20,11 @@
             min-height: 100vh;
         }
 
+        body, .container, .search-card, .form-label {
+            opacity: 1 !important;
+            color: #000 !important;
+        }
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -46,17 +51,48 @@
         }
 
         .search-card {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 100%;
+            background: rgba(200, 190, 255, 0.12) !important; /* brighter, faint harmonious purple */
+            border-radius: 24px !important;
+            box-sizing: border-box;
             padding: 40px;
             margin-bottom: 40px;
+            overflow: visible;
         }
-
+        
+        /* Force rounded corners with maximum specificity */
+        .container .search-card,
+        body .search-card,
+        .search-card {
+            border-radius: 24px !important;
+        }
         .search-form {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+            width: 100%;
+            max-width: 100%;
+            margin: 0;
+        }
+        .search-form .form-group:nth-child(1) { grid-column: 1; grid-row: 1; }
+        .search-form .form-group:nth-child(2) { grid-column: 2; grid-row: 1; }
+        .search-form .form-group:nth-child(3) { grid-column: 3; grid-row: 1; }
+        .search-form .form-group:nth-child(4) { grid-column: 4; grid-row: 1; }
+        .search-form .form-group:nth-child(5) { grid-column: 5; grid-row: 1; }
+        .search-form .form-group:nth-child(6) { grid-column: 6; grid-row: 1; }
+        .search-form .form-group:nth-child(7) { grid-column: 1; grid-row: 2; }
+        .search-form .form-group:nth-child(8) { grid-column: 2; grid-row: 2; }
+        .search-form .form-group:nth-child(9) { grid-column: 3; grid-row: 2; }
+        .search-form .form-group:nth-child(10) { grid-column: 4; grid-row: 2; }
+        .search-form .form-group:nth-child(11) { grid-column: 5; grid-row: 2; }
+        .search-form .form-group:nth-child(12) { grid-column: 6; grid-row: 2; }
+        @media (max-width: 900px) {
+            .search-form {
+                grid-template-columns: 1fr;
+                grid-template-rows: none;
+            }
+            .search-form .form-group {
+                grid-column: auto !important;
+                grid-row: auto !important;
+            }
         }
 
         .form-group {
@@ -67,20 +103,81 @@
         .form-group.full-width {
             grid-column: 1 / -1;
         }
-
         .form-group.date-range {
-            grid-column: 1 / -1;
-            display: grid;
-            grid-template-columns: 1fr auto 1fr;
-            gap: 15px;
-            align-items: end;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+        .form-group.date-range .date-range-fields {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .form-group.date-range label {
+            margin-bottom: 4px;
+        }
+        .form-group.date-range input[type="date"] {
+            min-width: 120px;
+            max-width: 160px;
+        }
+        .form-group.date-range {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .form-group.date-range > div {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .date-separator {
+            font-size: 1.5rem;
+            color: #667eea;
+            font-weight: 700;
+            margin: 0 8px;
+            align-self: center;
+        }
+        @media (max-width: 600px) {
+            .form-group.date-range {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 5px;
+            }
+            .date-separator {
+                display: none;
+            }
+        }
+
+        .form-group.two-col {
+            grid-column: span 2;
+        }
+        .form-group.three-col {
+            grid-column: span 3;
+        }
+        .form-group.start-date input,
+        .form-group.end-date input {
+            min-width: 120px;
+            max-width: 180px;
+        }
+
+        .form-group.past-checkbox {
+            grid-column: 3 / 5;
+            grid-row: 2;
+        }
+        .search-form .form-group.submit-btn-group {
+            grid-column: 6;
+            grid-row: 2;
+            display: flex;
+            justify-content: flex-end;
         }
 
         .form-label {
-            font-weight: 600;
-            color: #667eea;
+            font-weight: 700;
+            color: #000 !important;
+            opacity: 1 !important;
             margin-bottom: 8px;
-            font-size: 0.95rem;
+            font-size: 1rem;
         }
 
         .form-input {
@@ -115,15 +212,6 @@
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
-        .date-separator {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            color: #667eea;
-            font-size: 1.2rem;
-        }
-
         .checkbox-group {
             grid-column: 1 / -1;
             display: flex;
@@ -136,8 +224,8 @@
         }
 
         .form-check-input {
-            width: 18px;
-            height: 18px;
+            width: 15px;
+            height: 15px;
             accent-color: #667eea;
         }
 
@@ -182,8 +270,8 @@
         }
 
         .concert-card {
-            background: white;
-            border-radius: 15px;
+            background: rgba(200, 190, 255, 0.12) !important;
+            border-radius: 24px !important;
             overflow: hidden;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
@@ -230,6 +318,37 @@
             border-radius: 15px;
         }
 
+        .date-row {
+            display: flex;
+            align-items: flex-end;
+            gap: 32px;
+            margin-top: 16px;
+            margin-bottom: 16px;
+            flex-wrap: nowrap;
+            justify-content: flex-end;
+        }
+        .date-row .form-group {
+            margin-bottom: 0;
+            max-width: 220px;
+        }
+        .submit-btn-group {
+            flex-shrink: 0;
+            min-width: 120px;
+        }
+        @media (max-width: 900px) {
+            .date-row {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 12px;
+            }
+        }
+
+        .submit-row {
+            display: flex;
+            justify-content: center;
+            margin-top: 16px;
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 10px;
@@ -248,11 +367,6 @@
                 gap: 15px;
             }
             
-            .form-group.date-range {
-                grid-template-columns: 1fr;
-                gap: 10px;
-            }
-            
             .date-separator {
                 display: none;
             }
@@ -261,6 +375,13 @@
                 grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
                 gap: 15px;
             }
+        }
+        /* --- FORCE CONCERT CARD STYLE --- */
+        .container .concerts-grid .concert-card,
+        body .concert-card,
+        .concert-card {
+            background: rgba(200, 190, 255, 0.12) !important;
+            border-radius: 24px !important;
         }
     </style>
 </head>
@@ -272,28 +393,24 @@
         </div>
 
         <div class="search-card">
-            <form class="search-form" action="{% url 'concert_search_result' %}" method="get">
-                <div class="form-group">
+            <form class="search-form" action="{% url 'concert_search_result' %}" method="get" style="display: grid; grid-template-columns: repeat(6, 1fr); grid-template-rows: auto auto auto; gap: 16px; align-items: end;">
+                <div class="form-group" style="grid-column: 1; grid-row: 1;">
                     <label for="concert" class="form-label">콘서트 Concert</label>
                     <input type="search" class="form-input" name="concert" id="concert" placeholder="ex) New Year's Concert" value="{{ request.GET.concert }}">
                 </div>
-
-                <div class="form-group">
+                <div class="form-group" style="grid-column: 2; grid-row: 1;">
                     <label for="performer" class="form-label">연주자 Performer</label>
                     <input type="search" class="form-input" name="performer" id="performer" placeholder="ex) Martha Argerich" value="{{ request.GET.performer }}">
                 </div>
-
-                <div class="form-group">
+                <div class="form-group" style="grid-column: 3; grid-row: 1;">
                     <label for="composer" class="form-label">작곡가 Composer</label>
                     <input type="search" class="form-input" name="composer" id="composer" placeholder="ex) Bach, Beethoven" value="{{ request.GET.composer }}">
                 </div>
-
-                <div class="form-group">
+                <div class="form-group" style="grid-column: 4; grid-row: 1;">
                     <label for="program" class="form-label">작품명 Program</label>
                     <input type="search" class="form-input" name="program" id="program" placeholder="ex) English Suite No. 2, Piano Sonata Op. 101" value="{{ request.GET.program }}">
                 </div>
-
-                <div class="form-group">
+                <div class="form-group" style="grid-column: 5; grid-row: 1;">
                     <label for="area" class="form-label">지역 Area</label>
                     <select name="area" id="area" class="form-select">
                         <option value="0">모든 지역 All Areas</option>
@@ -302,27 +419,26 @@
                         {% endfor %}
                     </select>
                 </div>
-
-                <div class="form-group date-range">
-                    <div>
-                        <label for="from_date" class="form-label">시작 날짜 From Date</label>
-                        <input id="from_date" name="from_date" class="form-input" type="date" value="{{ request.GET.from_date }}" />
-                    </div>
-                    <div class="date-separator">-</div>
-                    <div>
-                        <label for="to_date" class="form-label">종료 날짜 To Date</label>
-                        <input id="to_date" name="to_date" class="form-input" type="date" value="{{ request.GET.to_date }}" />
+                <div class="form-group" style="grid-column: 6; grid-row: 1;"></div>
+                <div class="form-group" style="grid-column: 1; grid-row: 2;">
+                    <label for="from_date" class="form-label">시작 날짜 From Date</label>
+                    <input id="from_date" name="from_date" class="form-input" type="date" value="{{ request.GET.from_date }}" />
+                </div>
+                <div class="form-group" style="grid-column: 2; grid-row: 2;">
+                    <label for="to_date" class="form-label">종료 날짜 To Date</label>
+                    <input id="to_date" name="to_date" class="form-input" type="date" value="{{ request.GET.to_date }}" />
+                </div>
+                <div class="form-group past-checkbox" style="grid-column: 3 / span 2; grid-row: 2;">
+                    <div class="checkbox-group">
+                        <input class="form-check-input" type="checkbox" name="include_past_concerts" id="include_past_concerts" {% if request.GET.include_past_concerts %}checked{% endif %}>
+                        <label class="form-check-label" for="include_past_concerts">
+                            지난 연주회 포함 Include Past Concerts
+                        </label>
                     </div>
                 </div>
-
-                <div class="checkbox-group">
-                    <input class="form-check-input" type="checkbox" name="include_past_concerts" id="include_past_concerts" {% if request.GET.include_past_concerts %}checked{% endif %}>
-                    <label class="form-check-label" for="include_past_concerts">
-                        지난 연주회 포함 Include Past Concerts
-                    </label>
-                </div>
-
-                <div class="submit-section">
+                <div class="form-group" style="grid-column: 5; grid-row: 2;"></div>
+                <div class="form-group" style="grid-column: 6; grid-row: 2;"></div>
+                <div class="form-group submit-btn-group" style="grid-column: 1 / 7; grid-row: 3; display: flex; justify-content: center;">
                     <button type="submit" class="submit-btn">검색 Submit</button>
                 </div>
             </form>
