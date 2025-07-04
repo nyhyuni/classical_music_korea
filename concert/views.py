@@ -6,6 +6,7 @@ from django.shortcuts import render, redirect
 from datetime import datetime, timezone
 
 from .models import Concert, Area
+from catalog.models import Composer
 
 @method_decorator(cache_page(60 * 5), name="dispatch")
 class ConcertList(ListView):
@@ -17,6 +18,7 @@ class ConcertList(ListView):
         context = super(ConcertList, self).get_context_data(**kwargs)
         context['areas'] = Area.objects.all()
         context['concerts'] = Concert.objects.filter(datetime__gt=datetime.now(timezone.utc))
+        context['composers'] = Composer.objects.all().order_by('name')
         return context
 
 class ConcertDetail(DetailView):
@@ -31,6 +33,7 @@ class ConcertSearchResultList(ListView):
     model = Concert
     context_object_name = "search"
     template_name = "concert/concert_search_result.html"
+    paginate_by = 12  # Show 12 concerts per page
 
     def get_queryset(self):
         filter_query = Q()

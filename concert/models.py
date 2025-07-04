@@ -49,8 +49,8 @@ class Program(models.Model):
     work = models.CharField(max_length=250)
     composer_fuzzy_match = models.ForeignKey(Composer, default="", null=True, on_delete=models.PROTECT)
     work_fuzzy_match = models.ForeignKey(Work, default="", null=True, on_delete=models.PROTECT)
-    composer_fuzzy_match_confidence = models.FloatField(default=0.0)
-    work_fuzzy_match_confidence = models.FloatField(default=0.0)
+    composer_fuzzy_match_confidence = models.FloatField(default=0.0, null=True)
+    work_fuzzy_match_confidence = models.FloatField(default=0.0, null=True)
 
 class Performer(models.Model):
     concert = models.ForeignKey(Concert, related_name='performers', on_delete=models.CASCADE)

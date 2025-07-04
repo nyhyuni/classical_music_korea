@@ -275,29 +275,35 @@
             <form class="search-form" action="{% url 'concert_search_result' %}" method="get">
                 <div class="form-group">
                     <label for="concert" class="form-label">콘서트 Concert</label>
-                    <input type="search" class="form-input" name="concert" id="concert" placeholder="ex) New Year's Concert">
+                    <input type="search" class="form-input" name="concert" id="concert" placeholder="ex) New Year's Concert" value="{{ request.GET.concert }}">
                 </div>
 
                 <div class="form-group">
                     <label for="performer" class="form-label">연주자 Performer</label>
-                    <input type="search" class="form-input" name="performer" id="performer" placeholder="ex) Martha Argerich">
+                    <input type="search" class="form-input" name="performer" id="performer" placeholder="ex) Martha Argerich" value="{{ request.GET.performer }}">
                 </div>
 
                 <div class="form-group">
                     <label for="composer" class="form-label">작곡가 Composer</label>
-                    <input type="search" class="form-input" name="composer" id="composer" placeholder="ex) Bach, Beethoven">
+                    <select name="composer" id="composer" class="form-select">
+                        <option value="">모든 작곡가 All Composers</option>
+                        {% for composer in composers %}
+                            <option value="{{ composer.name }}" {% if request.GET.composer == composer.name %}selected{% endif %}>{{ composer.name }}</option>
+                        {% endfor %}
+                    </select>
                 </div>
 
                 <div class="form-group">
                     <label for="program" class="form-label">작품명 Program</label>
-                    <input type="search" class="form-input" name="program" id="program" placeholder="ex) English Suite No. 2, Piano Sonata Op. 101">
+                    <input type="search" class="form-input" name="program" id="program" placeholder="ex) English Suite No. 2, Piano Sonata Op. 101" value="{{ request.GET.program }}">
                 </div>
 
                 <div class="form-group">
                     <label for="area" class="form-label">지역 Area</label>
                     <select name="area" id="area" class="form-select">
+                        <option value="0">모든 지역 All Areas</option>
                         {% for area in areas %}
-                            <option value="{{ area.id }}">{{ area.name }}</option>
+                            <option value="{{ area.id }}" {% if request.GET.area == area.id|stringformat:"s" %}selected{% endif %}>{{ area.name }}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -305,17 +311,17 @@
                 <div class="form-group date-range">
                     <div>
                         <label for="from_date" class="form-label">시작 날짜 From Date</label>
-                        <input id="from_date" name="from_date" class="form-input" type="date" />
+                        <input id="from_date" name="from_date" class="form-input" type="date" value="{{ request.GET.from_date }}" />
                     </div>
                     <div class="date-separator">-</div>
                     <div>
                         <label for="to_date" class="form-label">종료 날짜 To Date</label>
-                        <input id="to_date" name="to_date" class="form-input" type="date" />
+                        <input id="to_date" name="to_date" class="form-input" type="date" value="{{ request.GET.to_date }}" />
                     </div>
                 </div>
 
                 <div class="checkbox-group">
-                    <input class="form-check-input" type="checkbox" name="include_past_concerts" id="include_past_concerts">
+                    <input class="form-check-input" type="checkbox" name="include_past_concerts" id="include_past_concerts" {% if request.GET.include_past_concerts %}checked{% endif %}>
                     <label class="form-check-label" for="include_past_concerts">
                         지난 연주회 포함 Include Past Concerts
                     </label>
