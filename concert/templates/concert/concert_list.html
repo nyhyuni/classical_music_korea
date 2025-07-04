@@ -285,12 +285,7 @@
 
                 <div class="form-group">
                     <label for="composer" class="form-label">작곡가 Composer</label>
-                    <select name="composer" id="composer" class="form-select">
-                        <option value="">모든 작곡가 All Composers</option>
-                        {% for composer in composers %}
-                            <option value="{{ composer.name }}" {% if request.GET.composer == composer.name %}selected{% endif %}>{{ composer.name }}</option>
-                        {% endfor %}
-                    </select>
+                    <input type="search" class="form-input" name="composer" id="composer" placeholder="ex) Bach, Beethoven" value="{{ request.GET.composer }}">
                 </div>
 
                 <div class="form-group">

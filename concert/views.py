@@ -3,7 +3,7 @@ from django.views.generic import ListView, DetailView
 from django.views.decorators.cache import cache_page
 from django.db.models import Q
 from django.shortcuts import render, redirect
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 
 from .models import Concert, Area
 from catalog.models import Composer
@@ -64,5 +64,7 @@ class ConcertSearchResultList(ListView):
         to_date = self.request.GET.get("to_date")
         if to_date:
             to_date = datetime.strptime(to_date, '%Y-%m-%d')
+            days_to_add = timedelta(days=1)
+            to_date = to_date + days_to_add
             filter_query.add(Q(datetime__lt=to_date), Q.AND)
         return Concert.objects.filter(filter_query).order_by('datetime').distinct()
