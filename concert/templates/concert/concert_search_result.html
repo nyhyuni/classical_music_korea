@@ -209,8 +209,8 @@
         <div class="page-header">
             <h1 class="page-title">Search Results</h1>
             <div class="results-count">
-                {% if search %}
-                    Found {{ search|length }} concert{{ search|length|pluralize }}
+                {% if page_obj %}
+                    Found {{ page_obj.paginator.count }} concert{{ page_obj.paginator.count|pluralize }}
                 {% else %}
                     No results found
                 {% endif %}
@@ -219,9 +219,9 @@
         </div>
 
         <div class="concerts-section">
-            {% if search %}
+            {% if page_obj %}
                 <div class="concerts-grid">
-                    {% for concert in search %}
+                    {% for concert in page_obj %}
                         <div class="concert-card">
                             <a href="{% url 'concert_detail' concert.kopis_id %}" style="text-decoration: none; color: inherit;">
                                 <img src="/media/display_poster/{{concert.display_poster_name}}" 
@@ -238,23 +238,22 @@
                     {% endfor %}
                 </div>
 
-                <!-- Simple pagination (you can implement this in your view if needed) -->
-                {% if search.has_other_pages %}
+                {% if page_obj.has_other_pages %}
                 <div class="pagination">
-                    {% if search.has_previous %}
-                        <a href="?page={{ search.previous_page_number }}" class="page-link">← Previous</a>
+                    {% if page_obj.has_previous %}
+                        <a href="?page={{ page_obj.previous_page_number }}{{ querystring }}" class="page-link">← Previous</a>
                     {% endif %}
                     
-                    {% for num in search.paginator.page_range %}
-                        {% if search.number == num %}
+                    {% for num in page_obj.paginator.page_range %}
+                        {% if page_obj.number == num %}
                             <span class="page-link current">{{ num }}</span>
-                        {% elif num > search.number|add:'-3' and num < search.number|add:'3' %}
-                            <a href="?page={{ num }}" class="page-link">{{ num }}</a>
+                        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                            <a href="?page={{ num }}{{ querystring }}" class="page-link">{{ num }}</a>
                         {% endif %}
                     {% endfor %}
                     
-                    {% if search.has_next %}
-                        <a href="?page={{ search.next_page_number }}" class="page-link">Next →</a>
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}{{ querystring }}" class="page-link">Next →</a>
                     {% endif %}
                 </div>
                 {% endif %}

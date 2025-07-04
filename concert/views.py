@@ -4,9 +4,11 @@ from django.views.decorators.cache import cache_page
 from django.db.models import Q
 from django.shortcuts import render, redirect
 from datetime import datetime, timezone, timedelta
+from urllib.parse import urlencode
 
 from .models import Concert, Area
 from catalog.models import Composer
+from django.core.paginator import EmptyPage, PageNotAnInteger
 
 @method_decorator(cache_page(60 * 5), name="dispatch")
 class ConcertList(ListView):
@@ -34,6 +36,29 @@ class ConcertSearchResultList(ListView):
     context_object_name = "search"
     template_name = "concert/concert_search_result.html"
     paginate_by = 12  # Show 12 concerts per page
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        params = self.request.GET.copy()
+        if 'page' in params:
+            params.pop('page')
+        context['querystring'] = '&' + urlencode(params) if params else ''
+        return context
+
+    def paginate_queryset(self, queryset, page_size):
+        """
+        Paginate the queryset, but if the page is invalid, return the first page.
+        """
+        paginator = self.get_paginator(queryset, page_size, allow_empty_first_page=True)
+        page = self.request.GET.get('page')
+        try:
+            page_number = paginator.validate_number(page)
+        except (PageNotAnInteger, TypeError):
+            page_number = 1
+        except EmptyPage:
+            page_number = 1
+        page_obj = paginator.page(page_number)
+        return (paginator, page_obj, page_obj.object_list, page_obj.has_other_pages())
 
     def get_queryset(self):
         filter_query = Q()
