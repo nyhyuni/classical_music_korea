@@ -21,28 +21,8 @@ class Composer(models.Model):
     recommended = models.BooleanField(blank=True, null=True)
     popular = models.BooleanField(blank=True, null=True)
 
-    class Meta:
-        db_table = 'composer'
-
     def __str__(self):
         return self.name
-
-
-class Omnisearch(models.Model):
-    summary = models.TextField()
-    composer = models.ForeignKey(Composer, models.DO_NOTHING)
-    work = models.ForeignKey('Work', models.DO_NOTHING, blank=True, null=True)
-
-    class Meta:
-        db_table = 'omnisearch'
-
-
-class Performer(models.Model):
-    name = models.TextField(unique=True)
-    role = models.TextField()
-
-    class Meta:
-        db_table = 'performer'
 
 
 class Work(models.Model):
@@ -56,9 +36,6 @@ class Work(models.Model):
     year = models.DateField(blank=True, null=True)
     recommended = models.BooleanField(blank=True, null=True)
     popular = models.BooleanField(blank=True, null=True)
-
-    class Meta:
-        db_table = 'work'
 
     def __str__(self):
         return self.name

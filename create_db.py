@@ -56,30 +56,6 @@ def create_openopus_sqlite_db(db_path="openopus.db"):
     """
     )
 
-    # Performer table
-    cursor.execute(
-        """
-         CREATE TABLE performer (
-              id INTEGER PRIMARY KEY AUTOINCREMENT,
-              name TEXT UNIQUE NOT NULL,
-              role TEXT NOT NULL
-         )
-    """
-    )
-
-    # Omnisearch table
-    cursor.execute(
-        """
-        CREATE TABLE omnisearch (
-            summary TEXT NOT NULL,
-            composer_id INTEGER NOT NULL,
-            work_id INTEGER,
-            FOREIGN KEY (composer_id) REFERENCES composer (id),
-            FOREIGN KEY (work_id) REFERENCES work (id)
-         )
-    """
-    )
-
     # Create indexes
     cursor.execute("CREATE INDEX idx_composer_name ON composer (name)")
     cursor.execute("CREATE INDEX idx_composer_name_ko ON composer (name_ko)")
