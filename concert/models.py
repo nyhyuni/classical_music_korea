@@ -44,7 +44,7 @@ class Concert(models.Model):
         ]
 
 class Program(models.Model):
-    concert = models.ForeignKey(Concert, related_name='compositions', on_delete=models.CASCADE)
+    concert = models.ForeignKey(Concert, related_name='programs', on_delete=models.CASCADE)
     composer = models.CharField(max_length=250)
     work = models.CharField(max_length=250)
     composer_fuzzy_match = models.ForeignKey(Composer, default="", null=True, on_delete=models.PROTECT)

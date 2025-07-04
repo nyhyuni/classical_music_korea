@@ -274,12 +274,12 @@
                     </div>
                 </div>
 
-                <div class="compositions-section">
+                <div class="programs-section">
                     <h3>연주곡</h3>
-                    {% for composition in concert_detail.compositions.all %}
-                    <div class="composition-item">
-                        <div class="composition-composer">{{ composition.composer }}</div>
-                        <div class="composition-name">{{ composition.name }}</div>
+                    {% for program in concert_detail.programs.all %}
+                    <div class="program-item">
+                        <div class="program-composer">{{ program.composer }}</div>
+                        <div class="program-work">{{ program.work }}</div>
                     </div>
                     {% endfor %}
                 </div>

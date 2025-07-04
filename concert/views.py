@@ -42,10 +42,10 @@ class ConcertSearchResultList(ListView):
             filter_query.add(Q(prfcast__icontains=performer), Q.AND)
         composer = self.request.GET.get("composer")
         if composer:
-            filter_query.add(Q(compositions__composer__icontains=composer), Q.AND)
-        composition = self.request.GET.get("composition")
-        if composition:
-            filter_query.add(Q(compositions__work__icontains=composition), Q.AND)
+            filter_query.add(Q(programs__composer__icontains=composer), Q.AND)
+        program = self.request.GET.get("program")
+        if program:
+            filter_query.add(Q(programs__work__icontains=program), Q.AND)
         include_past_concerts = self.request.GET.get("include_past_concerts")
         if not include_past_concerts:
             current_time = datetime.now(timezone.utc)
