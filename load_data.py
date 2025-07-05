@@ -5,7 +5,7 @@ Load Open Opus SQLite data into Python dictionaries
 
 import sqlite3
 
-def load_openopus_data(db_path="openopus.db"):
+def load_openopus_data(db_path="concert_project.db"):
    """Load composers and works into dictionaries for fuzzy matching"""
    
    conn = sqlite3.connect(db_path)
@@ -15,7 +15,7 @@ def load_openopus_data(db_path="openopus.db"):
    composers = {}
    cursor.execute('''
        SELECT id, name, name_ko, lastname_ko, complete_name, epoch, country, popular, recommended
-       FROM composer
+       FROM catalog_composer
    ''')
    
    for row in cursor.fetchall():
@@ -35,7 +35,7 @@ def load_openopus_data(db_path="openopus.db"):
    works_by_composer = {}
    cursor.execute('''
        SELECT composer_id, id, title, title_ko, subtitle, subtitle_ko, genre, popular, recommended
-       FROM work
+       FROM catalog_work
        ORDER BY composer_id, title
    ''')
    
