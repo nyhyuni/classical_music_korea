@@ -229,6 +229,10 @@
                                      class="concert-poster">
                                 <div class="concert-info">
                                     <div class="concert-title">{{ concert.prfnm }}</div>
+                                    <span class="info-value">
+                                        {% load i18n %}
+                                        {% language 'ko' %}{{ concert.datetime|date:'Y/m/d D, H:i시'}} {% endlanguage %}
+                                    </span>
                                     <div class="concert-details">
                                         {{ concert.prfcast|truncatechars:50 }}
                                     </div>

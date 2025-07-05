@@ -278,8 +278,7 @@
                     <h3>연주곡</h3>
                     {% for program in concert_detail.programs.all %}
                     <div class="program-item">
-                        <div class="program-composer">{{ program.composer }}</div>
-                        <div class="program-work">{{ program.work }}</div>
+                        {{ program.composer}} - {{ program.work}}
                     </div>
                     {% endfor %}
                 </div>
