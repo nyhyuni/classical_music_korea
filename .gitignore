@@ -13,7 +13,6 @@ __pycache__/
 
 # Django-specific files
 *.sqlite3
-/media/
 /static_collected/
 local_settings.py
 .env
