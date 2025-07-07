@@ -132,3 +132,7 @@ def full_poster_proxy(request, filename):
         return HttpResponse(s3_response['Body'].read(), content_type=content_type)
     except ClientError:
         raise Http404("Image not found")
+
+def robots_txt(request):
+    content = "User-agent: *\nDisallow: /"
+    return HttpResponse(content, content_type="text/plain")
