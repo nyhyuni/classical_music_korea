@@ -452,9 +452,11 @@
                     {% for concert in concerts|slice:":16" %}
                         <div class="concert-card">
                             <a href="{% url 'concert_detail' concert.kopis_id %}" style="text-decoration: none; color: inherit;">
-                                <img src="/media/display_poster/{{concert.display_poster_name}}" 
-                                     alt="Concert Poster" 
-                                     class="concert-poster">
+                                {% if concert.display_poster %}
+                                    <img src="{% url 'display_poster_proxy' filename=concert.display_poster.name|cut:'display_poster/' %}" 
+                                         alt="{{ concert.prfnm }}" 
+                                         class="concert-poster">
+                                {% endif %}
                                 <div class="concert-info">
                                     <div class="concert-title">{{ concert.prfnm }}</div>
                                     <div class="concert-details">

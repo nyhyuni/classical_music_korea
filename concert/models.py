@@ -28,6 +28,8 @@ class Concert(models.Model):
     prfcast = models.CharField(max_length=250, default="")
     display_poster_name = models.CharField(max_length=250, default="")
     program_blurb = models.CharField(max_length=1000, default="")
+    full_poster = models.ImageField(upload_to='full_poster/', blank=True, null=True)
+    display_poster = models.ImageField(upload_to='display_poster/', blank=True, null=True)
 
     @property
     def is_past(self):
@@ -69,6 +71,7 @@ class TicketVendor(models.Model):
 class FullPosterName(models.Model):
     concert = models.ForeignKey(Concert, related_name='full_poster_names', on_delete=models.CASCADE)
     name = models.CharField(max_length=250)
+    image = models.ImageField(upload_to='full_poster/', blank=True, null=True)
 
     class Meta:
         unique_together = ('concert', 'name',)

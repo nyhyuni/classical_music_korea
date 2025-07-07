@@ -288,9 +288,11 @@
                     <h3>공연 포스터</h3>
                     <div class="posters-grid">
                         {% for poster in concert_detail.full_poster_names.all %}
-                        <div class="poster-item">
-                            <img src="/media/full_poster/{{ poster.name }}" alt="공연 포스터" />
-                        </div>
+                            {% if poster.image %}
+                                <div class="poster-item">
+                                    <img src="{% url 'full_poster_proxy' filename=poster.image.name|cut:'full_poster/' %}" alt="{{ concert_detail.prfnm }}" />
+                                </div>
+                            {% endif %}
                         {% endfor %}
                     </div>
                 </div>

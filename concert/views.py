@@ -5,6 +5,10 @@ from django.db.models import Q
 from django.shortcuts import render, redirect
 from datetime import datetime, timezone, timedelta
 from urllib.parse import urlencode
+from django.http import JsonResponse, Http404, HttpResponse
+from django.conf import settings
+import boto3
+from botocore.exceptions import ClientError
 
 from .models import Concert, Area
 from catalog.models import Composer
@@ -93,3 +97,38 @@ class ConcertSearchResultList(ListView):
             to_date = to_date + days_to_add
             filter_query.add(Q(datetime__lt=to_date), Q.AND)
         return Concert.objects.filter(filter_query).order_by('datetime').distinct()
+
+def get_presigned_url(request):
+    key = request.GET.get('key')
+    if not key:
+        return JsonResponse({'error': 'Missing key'}, status=400)
+    s3 = boto3.client('s3')
+    try:
+        url = s3.generate_presigned_url(
+            ClientMethod='get_object',
+            Params={'Bucket': settings.AWS_STORAGE_BUCKET_NAME, 'Key': key},
+            ExpiresIn=3600  # 1 hour
+        )
+        return JsonResponse({'url': url})
+    except Exception:
+        raise Http404("File not found")
+
+def display_poster_proxy(request, filename):
+    s3 = boto3.client('s3')
+    key = f'display_poster/{filename}'
+    try:
+        s3_response = s3.get_object(Bucket=settings.AWS_STORAGE_BUCKET_NAME, Key=key)
+        content_type = s3_response.get('ContentType', 'image/jpeg')
+        return HttpResponse(s3_response['Body'].read(), content_type=content_type)
+    except ClientError:
+        raise Http404("Image not found")
+
+def full_poster_proxy(request, filename):
+    s3 = boto3.client('s3')
+    key = f'full_poster/{filename}'
+    try:
+        s3_response = s3.get_object(Bucket=settings.AWS_STORAGE_BUCKET_NAME, Key=key)
+        content_type = s3_response.get('ContentType', 'image/jpeg')
+        return HttpResponse(s3_response['Body'].read(), content_type=content_type)
+    except ClientError:
+        raise Http404("Image not found")
