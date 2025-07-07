@@ -13,12 +13,14 @@ _A modern Django web app for searching and exploring classical concerts in Korea
 
 The concert poster reading and information extraction features use AI and automated methods. While we strive for accuracy, there may be occasional mistakes or misinterpretations in composer, work, or program details. Please double-check important information, and feel free to report any errors or suggest corrections!
 
+> **Note:** This project is under active development and is **not production ready**.
+
 ---
 
 ## 🎵 Data Sources & AI Extraction
 
 - **KOPIS API:**  
-  This project uses the [KOPIS](https://www.kopis.or.kr/) public API to fetch concert metadata, including concert titles, dates, venues, and performer information for classical music events in Korea.
+  This project uses the [KOPIS](https://kopis.or.kr/por/cs/openapi/openApiInfo.do?menuId=MNU_00074) public API to fetch concert metadata, including concert titles, dates, venues, and performer information for classical music events in Korea.
 
 - **AI-Powered Program Extraction:**  
   While KOPIS provides rich metadata, it often does **not** include detailed program (repertoire) information.  
