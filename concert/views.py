@@ -14,16 +14,16 @@ from .models import Concert, Area
 from catalog.models import Composer
 from django.core.paginator import EmptyPage, PageNotAnInteger
 
-@method_decorator(cache_page(60 * 5), name="dispatch")
 class ConcertList(ListView):
     model = Concert
     context_object_name = "concerts"
-    template_name = "concert/concerts.html"
+    template_name = "concert/concert_list.html"
 
     def get_context_data(self, **kwargs):
+        import random
         context = super(ConcertList, self).get_context_data(**kwargs)
         context['areas'] = Area.objects.all()
-        context['concerts'] = Concert.objects.filter(datetime__gt=datetime.now(timezone.utc))
+        context['concerts'] = Concert.objects.filter(datetime__gt=datetime.now(timezone.utc)).order_by('?')[:12]
         context['composers'] = Composer.objects.all().order_by('name')
         return context
 

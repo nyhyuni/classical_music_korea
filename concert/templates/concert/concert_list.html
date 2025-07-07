@@ -449,7 +449,7 @@
             {% load static %}
             {% if concerts %}
                 <div class="concerts-grid">
-                    {% for concert in concerts|slice:":16" %}
+                    {% for concert in concerts %}
                         <div class="concert-card">
                             <a href="{% url 'concert_detail' concert.kopis_id %}" style="text-decoration: none; color: inherit;">
                                 {% if concert.display_poster %}
