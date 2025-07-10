@@ -63,6 +63,102 @@ classical_music_korea/
 ├── manage.py
 └── ...
 ```
+
+---
+
+## 📊 Database Diagram
+
+```mermaid
+erDiagram
+    Area ||--o{ Facility : has
+    Area ||--o{ Concert : has
+    Facility ||--o{ Concert : hosts
+    Concert ||--o{ Program : includes
+    Concert ||--o{ Performer : features
+    Concert ||--o{ TicketVendor : sells
+    Concert ||--o{ FullPosterName : has
+    Program }o--|| ComposerCatalog : composer_fuzzy_match
+    Program }o--|| WorkCatalog : work_fuzzy_match
+
+    Area {
+        int id PK
+        string name
+    }
+    Facility {
+        int id PK
+        string name
+        int area_id FK
+    }
+    Concert {
+        string kopis_id PK
+        string prfnm
+        datetime datetime
+        string prfruntime
+        string price
+        int facility_id FK
+        int area_id FK
+        string prfcast
+        string display_poster_name
+        string program_blurb
+        image full_poster
+        image display_poster
+    }
+    Program {
+        int id PK
+        int concert_id FK
+        string composer
+        string work
+        int composer_fuzzy_match_id FK
+        int work_fuzzy_match_id FK
+        float composer_fuzzy_match_confidence
+        float work_fuzzy_match_confidence
+    }
+    Performer {
+        int id PK
+        int concert_id FK
+        string name
+    }
+    TicketVendor {
+        int id PK
+        int concert_id FK
+        string name
+        string url
+    }
+    FullPosterName {
+        int id PK
+        int concert_id FK
+        string name
+        image image
+    }
+    ComposerCatalog {
+        int id PK
+        string name
+        string name_ko
+        string lastname_ko
+        string complete_name
+        string portrait
+        date birth
+        date death
+        string epoch
+        string country
+        bool recommended
+        bool popular
+    }
+    WorkCatalog {
+        int id PK
+        int composer_id FK
+        string title
+        string title_ko
+        string subtitle
+        string subtitle_ko
+        string searchterms
+        string genre
+        date year
+        bool recommended
+        bool popular
+    }
+```
+
 ---
 
 ## 📝 To-Do / Planned Features
@@ -84,3 +180,5 @@ MIT License
 - [Open Opus](https://openopus.org/) for composer/work data
 - [KOPIS](https://www.kopis.or.kr/) for concert data
 - Django, Python, and all open-source contributors
+
+---
